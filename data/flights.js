@@ -1,21 +1,44 @@
 module.exports = [
     {
-        id: 1,
-        from: 'YVR',
-        to: 'YYZ',
-        price: 299,
-        airline: 'Air Canada',
-        duration: '4h 30m',
-        departureTime: '2025-06-01T09:00:00'
+        "id": 1,
+        "from": "YVR",
+        "to": "JFK",
+        "airline": "Air Canada",
+        "price": 350
     },
     {
-        id: 2,
-        from: 'YVR',
-        to: 'YYC',
-        price: 129,
-        airline: 'WestJet',
-        duration: '1h 30m',
-        departureTime: '2025-06-02T08:00:00'
+        "id": 2,
+        "from": "YVR",
+        "to": "YYZ",
+        "airline": "WestJet",
+        "price": 280
+    },
+    {
+        "id": 3,
+        "from": "YYZ",
+        "to": "JFK",
+        "airline": "Porter Airlines",
+        "price": 320
+    },
+    {
+        "id": 4,
+        "from": "YYZ",
+        "to": "YUL",
+        "airline": "Air Canada",
+        "price": 250
+    },
+    {
+        "id": 5,
+        "from": "YVR",
+        "to": "YYZ",
+        "airline": "Flair Airlines",
+        "price": 99
+    },
+    {
+        "id": 6,
+        "from": "YVR",
+        "to": "YYZ",
+        "airline": "Porter Airlines",
+        "price": 220
     }
-
 ];
