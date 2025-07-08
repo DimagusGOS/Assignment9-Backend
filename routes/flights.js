@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 let flights = require('../data/flights');
 const Flight = require('../models/Flight');
+const {verifyToken} = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -94,7 +95,7 @@ router.get('/', async (req, res) => {
 });
 
 //GET flight by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     try {
         const f = await Flight.findById(req.params.id);
         f ? res.json({ ...f._doc, id: f._id }) :
