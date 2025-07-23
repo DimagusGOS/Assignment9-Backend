@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://your-vercel-app>.vercel.app', //React frontend
+    origin: 'https://assignment9-frontend.vercel.app', //React frontend
     credentials: true
 }));
 app.use('/flights', flightsRouter);
