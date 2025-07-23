@@ -2,10 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const {verifyToken} = require('../middleware/auth');
 
 const router = express.Router();
 
-const JWT_SECRET = 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
 // replace/move to .env
 
 //Signup
@@ -22,8 +23,8 @@ router.post('/signup', async(req, res) => {
         const newUser = new User({username, email, passwordHash});
         await newUser.save();
 
-        const token = jwt.sign({userId: newUser._id}, JWT_SECRET);
-        res.json({token});
+        //const token = jwt.sign({userId: newUser._id}, JWT_SECRET);
+        res.status(201).json({message: 'New User Created'});
     } catch(err) {
         console.error(err);
         res.status(500).json({error: 'Signup failed'});
@@ -44,7 +45,13 @@ router.post('/login', async(req, res) =>{
             return res.status(401).json({error: 'Invalid credentials'});
 
         const token = jwt.sign({userId: user._id}, JWT_SECRET);
-        res.json({token});
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV == 'production',
+            sameSite: 'Lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        .json({user}); // Sends back user object directly
     } catch(err) {
         console.error(err);
         res.status(500).json({error: 'Login failed'});
@@ -52,8 +59,8 @@ router.post('/login', async(req, res) =>{
 });
 
 // get Current User
-router.get('/me', async(req, res) => {
-    const token = req.headers.authorization?.split(' ')[1];
+router.get('/me', verifyToken, async(req, res) => {
+    const token = req.cookies.token;
     // console.log(token);
     if (!token)
         return res.status(401).json({error: 'Missing token'});
@@ -65,6 +72,15 @@ router.get('/me', async(req, res) => {
     } catch {
         res.status(401).json({error: 'Invalid token'});
     }
+});
+
+router.post('/logout', (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict'
+    });
+    res.json({message: 'Logged out successfully'});
 });
 
 module.exports = router;
