@@ -85,7 +85,8 @@ router.get('/', async (req, res) => {
         const filter = {};
         if (from) filter.from = from;
         if (to) filter.to = to;
-        const flights = await Flight.find(filter);
+        const flights = await Flight.find();
+        console.log(filter);
         res.json(flights.map(f => ({ ...f._doc, id: f._id })));
     } catch (err) {
         res.status(500).json({

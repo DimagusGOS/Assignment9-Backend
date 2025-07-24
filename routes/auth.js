@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const {verifyToken} = require('../middleware/auth');
 
+require('dotenv').config();
+
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -60,13 +62,13 @@ router.post('/login', async(req, res) =>{
 
 // get Current User
 router.get('/me', verifyToken, async(req, res) => {
-    const token = req.cookies.token;
+    // const token = req.cookies.token;
     // console.log(token);
-    if (!token)
-        return res.status(401).json({error: 'Missing token'});
+    // if (!token)
+    //     return res.status(401).json({error: 'Missing token'});
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        // const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findById(decoded.userId).select('username email createdAt');
             res.json(user);
     } catch {

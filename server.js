@@ -14,12 +14,13 @@ mongoose
 const express = require('express');
 const flightsRouter = require('./routes/flights');
 const app = express();
-app.use(express.json());
-app.use(cookieParser());
 app.use(cors({
-    origin: 'https://assignment9-frontend.vercel.app', //React frontend
+    origin: 'http://localhost:5173', //React frontend
+    // origin: 'https://assignment9-frontend.vercel.app', //React frontend
     credentials: true
 }));
+app.use(express.json());
+app.use(cookieParser());
 app.use('/flights', flightsRouter);
 app.use('/api/auth', authRoutes);
 
