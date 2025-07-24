@@ -50,7 +50,7 @@ router.post('/login', async(req, res) =>{
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV == 'production',
-            sameSite: 'none',
+            sameSite: 'Lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         .json({user}); // Sends back user object directly
@@ -70,7 +70,8 @@ router.get('/me', verifyToken, async(req, res) => {
     try {
         // const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findById(decoded.userId).select('username email createdAt');
-            res.json(user);
+        res.json(user);
+
     } catch {
         res.status(401).json({error: 'Invalid token'});
     }
