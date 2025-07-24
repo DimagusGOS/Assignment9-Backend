@@ -15,8 +15,8 @@ const express = require('express');
 const flightsRouter = require('./routes/flights');
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173', //React frontend
-    // origin: 'https://assignment9-frontend.vercel.app', //React frontend
+    // origin: 'http://localhost:5173', //React frontend
+    origin: 'https://assignment9-frontend.vercel.app', //React frontend
     credentials: true
 }));
 app.use(express.json());
